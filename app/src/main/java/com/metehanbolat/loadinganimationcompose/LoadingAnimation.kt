@@ -30,6 +30,25 @@ fun LoadingAnimation(
         remember { Animatable(initialValue = 0f) }
     )
 
+    circles.forEachIndexed{ index, animatable ->
+        LaunchedEffect(key1 = animatable) {
+            delay(index * 100L)
+            animatable.animateTo(
+                targetValue = 1f,
+                animationSpec = infiniteRepeatable(
+                    animation = keyframes {
+                        durationMillis = 1200
+                        0.0f at 0 with LinearOutSlowInEasing
+                        1.0f at 300 with LinearOutSlowInEasing
+                        0.0f at 600 with LinearOutSlowInEasing
+                        0.0f at 1200 with LinearOutSlowInEasing
+                    },
+                    repeatMode = RepeatMode.Restart
+                )
+            )
+        }
+    }
+
     val circleValues = circles.map { it.value }
     val distance = with(LocalDensity.current) { travelDistance.toPx() }
     val lastCircle = circleValues.size - 1
